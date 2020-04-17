@@ -4,6 +4,24 @@ def draw_rectangle(
     width, height, border_color=1, fill_color=1, border_width=1
 ):
     matrix = []
+    max_suggested = 40
+    if height < 1:
+        print("The height can't be lower than 1!")
+        return matrix
+    elif height > max_suggested:
+        print(f"Height value greater than {max_suggested} would not look \
+good on screen, please change it.")
+        return matrix
+    if (border_color and fill_color) not in (0, 1, 2):
+        print("Color value can only be 0, 1 or 2. Try again.")
+        return matrix
+    if border_width > width / 2 - 1 or border_width > height / 2 - 1:
+        if width / 2 > height / 2:
+            max_border = int(height / 2) - 1
+        else:
+            max_border = int(width / 2) - 1
+        print(f"Maximum border width can be {max_border}. Try again.")
+        return matrix
     for row_number in range(height):
         new_row = str(border_color) * width
         matrix.append(list(map(int, new_row)))
@@ -21,13 +39,17 @@ def draw_rectangle(
 
 def draw_triangle(height, border_color=1, fill_color=1):
     matrix = []
-    #     if height < 1:
-    #         print("The height can't be lower than 1!")
-    #         return matrix
-    #     elif height > 40:
-    #         print("Height value greater than 40 would not look good on screen, \
-    # please change it.")
-    #         return matrix
+    max_suggested = 40
+    if height < 1:
+        print("The height can't be lower than 1!")
+        return matrix
+    elif height > max_suggested:
+        print(f"Height value greater than {max_suggested} would not \
+look good on screen, please change it.")
+        return matrix
+    if (border_color and fill_color) not in (0, 1, 2):
+        print("Color value can only be 0, 1 or 2. Try again.")
+        return matrix
     number_of_columns = 1 + (height - 1) * 2
     number_of_rows = height
     new_row = str(border_color)
@@ -35,12 +57,29 @@ def draw_triangle(height, border_color=1, fill_color=1):
     for row_number in range(1, height):
         new_row = str(border_color) * (1 + 2 * row_number)
         append_to_matrix(matrix, new_row, number_of_columns)
-    matrix = change_fill_color(matrix, number_of_rows, border_color, number_of_columns, fill_color)
+    matrix = change_fill_color(
+        matrix,
+        number_of_rows,
+        border_color,
+        number_of_columns,
+        fill_color
+    )
     return matrix
 
 
 def draw_christmas_tree(blocks, border_color=1, fill_color=2):
     matrix = []
+    max_suggested = 15
+    if blocks < 1:
+        print("The number of blocks can't be lower than 1!")
+        return matrix
+    elif blocks > max_suggested:
+        print(f"Block number greater than {max_suggested} would not \
+look good on screen, please change it.")
+        return matrix
+    if (border_color and fill_color) not in (0, 1, 2):
+        print("Color value can only be 0, 1 or 2. Try again.")
+        return matrix
     number_of_columns = 5 + (-2 + 2 * 2) * (blocks - 1)
     number_of_rows = blocks * 3
     number_of_border_colors = -1
@@ -51,7 +90,13 @@ def draw_christmas_tree(blocks, border_color=1, fill_color=2):
             number_of_border_colors += 2
         new_row = str(border_color) * number_of_border_colors
         append_to_matrix(matrix, new_row, number_of_columns)
-    matrix = change_fill_color(matrix, number_of_rows, border_color, number_of_columns, fill_color)
+    matrix = change_fill_color(
+        matrix,
+        number_of_rows,
+        border_color,
+        number_of_columns,
+        fill_color
+    )
     return matrix
 
 
@@ -59,7 +104,13 @@ def append_to_matrix(matrix, new_row, number_of_columns):
     matrix.append(list(map(int, new_row.center(number_of_columns, "0"))))
 
 
-def change_fill_color(matrix, number_of_rows, border_color, number_of_columns, fill_color):
+def change_fill_color(
+    matrix,
+    number_of_rows,
+    border_color,
+    number_of_columns,
+    fill_color
+):
     row_number = 1
     for row in matrix[:]:
         if row_number < number_of_rows and row.count(border_color) > 2:
@@ -102,8 +153,8 @@ if __name__ == "__main__":
         color_scheme,
     )
 
-    embroider(draw_rectangle(10, 10, border_color=1, fill_color=2, border_width=2), color_scheme)
+    embroider(draw_rectangle(10, 8, border_color=1, fill_color=2, border_width=3), color_scheme)
     embroider(draw_triangle(10, border_color=1, fill_color=2), color_scheme)
-    embroider(draw_christmas_tree(7), color_scheme)
+    embroider(draw_christmas_tree(5), color_scheme)
     # This should have the same output:
     # embroider(draw_triangle(4, border_color=1, fill_color=2), color_scheme)
